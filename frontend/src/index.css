@@ -1,0 +1,624 @@
+/* Las fuentes (@import url) siempre van al principio del archivo. */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+/* ==========================================================
+   0. RESET
+   Reemplaza al "preflight" de Tailwind, que se sacó del proyecto.
+   Es el mismo comportamiento, así que el diseño no cambia.
+   ========================================================== */
+*,
+*::before,
+*::after {
+  border-width: 0;
+  border-style: solid;
+  border-color: #e5e7eb;
+}
+html {
+  line-height: 1.5;
+  -webkit-text-size-adjust: 100%;
+  tab-size: 4;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-size: inherit;
+  font-weight: inherit;
+}
+b,
+strong {
+  font-weight: bolder;
+}
+table {
+  border-color: inherit;
+  border-collapse: collapse;
+  text-indent: 0;
+}
+button,
+input,
+optgroup,
+select,
+textarea {
+  font-family: inherit;
+  font-size: 100%;
+  font-weight: inherit;
+  line-height: inherit;
+  color: inherit;
+  margin: 0;
+  padding: 0;
+}
+button,
+select {
+  text-transform: none;
+}
+button,
+[type='button'],
+[type='reset'],
+[type='submit'] {
+  -webkit-appearance: button;
+  appearance: button;
+  background-color: transparent;
+  background-image: none;
+}
+button,
+[role='button'] {
+  cursor: pointer;
+}
+:disabled {
+  cursor: default;
+}
+textarea {
+  resize: vertical;
+}
+::placeholder {
+  opacity: 1;
+  color: #9ca3af;
+}
+img,
+svg,
+video,
+canvas,
+audio,
+iframe,
+embed,
+object {
+  display: block;
+  vertical-align: middle;
+}
+img,
+video {
+  max-width: 100%;
+  height: auto;
+}
+[hidden] {
+  display: none;
+}
+
+/* ==========================================================
+   1. VARIABLES (colores y valores que se repiten)
+   ========================================================== */
+:root {
+  --ink: #141b2d;
+  --ink-hover: #232c44;
+  --canvas: #faf8f5;
+  --white: #ffffff;
+  --muted: #5b6273;
+  --placeholder: #9a9fab;
+  --line: #e4e2dd;
+  --sun: #f5a623;
+  --error: #c03a3a;
+  --error-strong: #b42323;
+  --error-border: #d64545;
+  --error-bg: #fdf1f1;
+  --error-bg-border: #f3c4c4;
+  --success: #2f7a4d;
+  --success-strong: #1f5132;
+  --success-soft: #e3f2e8;
+  --success-bg: #f0f9f3;
+  --success-border: #cde7d6;
+  --radius: 12px;
+  --ease: cubic-bezier(0.23, 1, 0.32, 1);
+}
+/* ==========================================================
+   2. BASE
+   ========================================================== */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+html,
+body,
+#root {
+  height: 100%;
+}
+body {
+  font-family: 'Inter', system-ui, sans-serif;
+  background: var(--canvas);
+  color: var(--ink);
+  -webkit-font-smoothing: antialiased;
+}
+button,
+input {
+  font: inherit;
+  color: inherit;
+}
+a {
+  color: inherit;
+  text-decoration: none;
+}
+img {
+  display: block;
+  max-width: 100%;
+}
+:focus-visible {
+  outline: 2px solid var(--sun);
+  outline-offset: 2px;
+}
+/* Texto solo para lectores de pantalla */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+}
+select,
+textarea {
+  font: inherit;
+  color: inherit;
+}
+ul,
+ol {
+  list-style: none;
+}
+/* ==========================================================
+   3. LAYOUT (panel del logo + contenido)
+   ========================================================== */
+.auth-layout {
+  display: flex;
+  width: 100%;
+  min-height: 100vh;
+  background: var(--canvas);
+}
+.brand {
+  width: 44%;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 64px 32px;
+  background: var(--ink);
+}
+.brand__logo {
+  width: 100%;
+  max-width: 360px;
+  height: auto;
+}
+.brand__tagline {
+  margin-top: 40px;
+  font-size: 16px;
+  color: #c9ccd6;
+  text-align: center;
+}
+.auth-main {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 24px;
+}
+.auth-box {
+  width: 100%;
+  max-width: 400px;
+}
+/* ==========================================================
+   4. ELEGIR PERFIL
+   ========================================================== */
+.role-select {
+  flex: 1;
+  padding: 96px 116px 48px;
+}
+.role-select__title {
+  font-size: 32px;
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+}
+.role-select__subtitle {
+  margin-top: 24px;
+  font-size: 16px;
+  color: var(--muted);
+}
+.role-grid {
+  margin-top: 50px;
+  max-width: 800px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+.role-card {
+  min-height: 186px;
+  display: flex;
+  flex-direction: column;
+  padding: 28px 30px;
+  background: var(--white);
+  border: 1px solid var(--ink);
+  border-radius: 16px;
+  transition:
+    transform 150ms var(--ease),
+    box-shadow 150ms var(--ease);
+}
+.role-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px -12px rgba(20, 27, 45, 0.35);
+}
+.role-card:active {
+  transform: translateY(0);
+}
+.role-card__title {
+  font-size: 20px;
+  font-weight: 600;
+}
+.role-card__text {
+  margin-top: 16px;
+  max-width: 300px;
+  font-size: 14px;
+  line-height: 1.3;
+  color: var(--muted);
+}
+/* ==========================================================
+   5. TÍTULOS DE LOS FORMULARIOS
+   ========================================================== */
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--muted);
+  border-radius: 4px;
+  transition: color 150ms ease-out;
+}
+.back-link:hover {
+  color: var(--ink);
+}
+.auth-title {
+  margin-top: 12px;
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+}
+.auth-lead {
+  margin-top: 8px;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--muted);
+}
+/* ==========================================================
+   6. FORMULARIOS Y CAMPOS
+   ========================================================== */
+.form {
+  margin-top: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.field__label {
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+}
+.field__control {
+  position: relative;
+  margin-top: 8px;
+}
+.input {
+  width: 100%;
+  height: 48px;
+  padding: 0 16px;
+  font-size: 14px;
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  transition:
+    border-color 150ms ease-out,
+    box-shadow 150ms ease-out;
+}
+.input::placeholder {
+  color: var(--placeholder);
+}
+.input:focus {
+  outline: none;
+  border-color: var(--ink);
+  box-shadow: 0 0 0 3px rgba(245, 166, 35, 0.35);
+}
+.input--error,
+.input--error:focus {
+  border-color: var(--error-border);
+}
+.input--with-toggle {
+  padding-right: 48px;
+}
+.field__toggle {
+  position: absolute;
+  top: 50%;
+  right: 8px;
+  transform: translateY(-50%);
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #7a808c;
+  background: none;
+  border: 0;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: color 150ms ease-out;
+}
+.field__toggle:hover {
+  color: var(--ink);
+}
+.field__error {
+  margin-top: 6px;
+  font-size: 12px;
+  color: var(--error);
+}
+.forgot-row {
+  margin-top: 12px;
+  display: flex;
+  justify-content: flex-end;
+}
+/* Checkbox de términos */
+.checkbox {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  font-size: 12px;
+  line-height: 1.4;
+  color: var(--muted);
+  cursor: pointer;
+}
+.checkbox__box {
+  position: relative;
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+.checkbox__input {
+  appearance: none;
+  display: block;
+  width: 16px;
+  height: 16px;
+  margin: 0;
+  background: var(--white);
+  border: 1px solid #d5d2cc;
+  border-radius: 4px;
+  cursor: pointer;
+  transition:
+    background-color 150ms ease-out,
+    border-color 150ms ease-out;
+}
+.checkbox__input:checked {
+  background: var(--ink);
+  border-color: var(--ink);
+}
+.checkbox__input--error {
+  border-color: var(--error-border);
+}
+.checkbox__check {
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  color: var(--white);
+  opacity: 0;
+  pointer-events: none;
+}
+.checkbox__input:checked + .checkbox__check {
+  opacity: 1;
+}
+/* ==========================================================
+   7. BOTONES Y ENLACES
+   ========================================================== */
+.btn-primary {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  height: 48px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--white);
+  background: var(--ink);
+  border: 0;
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition:
+    background-color 150ms ease-out,
+    transform 120ms ease-out;
+}
+.btn-primary:hover {
+  background: var(--ink-hover);
+}
+.btn-primary:active {
+  transform: scale(0.99);
+}
+.btn-primary:disabled {
+  opacity: 0.8;
+  cursor: not-allowed;
+}
+.spinner {
+  animation: spin 0.8s linear infinite;
+}
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+.text-link {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--ink);
+  background: none;
+  border: 0;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.text-link:hover {
+  text-decoration: underline;
+}
+.auth-footer {
+  font-size: 12px;
+  text-align: center;
+  color: var(--muted);
+}
+.auth-footer--spaced {
+  margin-top: 24px;
+}
+/* ==========================================================
+   8. AVISOS (error y éxito)
+   ========================================================== */
+.alert {
+  margin-top: 24px;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 12px 16px;
+  border: 1px solid;
+  border-radius: var(--radius);
+}
+.alert__icon {
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+.alert__title {
+  font-size: 14px;
+  font-weight: 600;
+}
+.alert__text {
+  margin-top: 2px;
+  font-size: 12px;
+  line-height: 1.45;
+}
+.alert--error {
+  background: var(--error-bg);
+  border-color: var(--error-bg-border);
+}
+.alert--error .alert__icon {
+  color: var(--error-bg);
+  fill: var(--error);
+}
+.alert--error .alert__title {
+  color: var(--error-strong);
+}
+.alert--error .alert__text {
+  color: var(--error);
+}
+.alert--success {
+  background: var(--success-bg);
+  border-color: var(--success-border);
+}
+.alert--success .alert__icon {
+  color: var(--success);
+}
+.alert--success .alert__title {
+  color: var(--success-strong);
+}
+.alert--success .alert__text {
+  color: var(--success);
+}
+.after-alert {
+  margin-top: 16px;
+}
+/* ==========================================================
+   9. BIENVENIDA
+   ========================================================== */
+.welcome-card {
+  width: 100%;
+  max-width: 400px;
+  padding: 28px 24px;
+  text-align: center;
+  background: var(--white);
+  border-radius: 16px;
+  box-shadow: 0 12px 32px -12px rgba(20, 27, 45, 0.18);
+}
+.welcome-card__icon {
+  width: 48px;
+  height: 48px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--success);
+  background: var(--success-soft);
+  border-radius: 50%;
+}
+.badge {
+  display: inline-block;
+  margin-top: 16px;
+  padding: 4px 10px;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--success);
+  background: var(--success-soft);
+  border-radius: 999px;
+}
+.welcome-card__title {
+  margin-top: 8px;
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+.welcome-card__text {
+  max-width: 300px;
+  margin: 8px auto 0;
+  font-size: 12px;
+  line-height: 1.6;
+  color: var(--muted);
+}
+.welcome-card__action {
+  margin-top: 24px;
+}
+/* ==========================================================
+   10. RESPONSIVE
+   ========================================================== */
+@media (max-width: 768px) {
+  .auth-layout {
+    flex-direction: column;
+  }
+  .brand {
+    width: 100%;
+  }
+  .brand__logo {
+    max-width: 240px;
+  }
+  .role-select {
+    padding: 48px 24px;
+  }
+}
+@media (max-width: 640px) {
+  .role-grid {
+    grid-template-columns: 1fr;
+  }
+  .role-select__title {
+    font-size: 26px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition: none !important;
+    animation: none !important;
+  }
+}

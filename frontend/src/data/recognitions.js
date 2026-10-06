@@ -1,0 +1,1 @@
+export const recognitionCategories = ['Colaboración', 'Ayuda al equipo', 'Creatividad'];

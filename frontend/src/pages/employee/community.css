@@ -1,0 +1,270 @@
+/* ==========================================================
+   RECONOCIMIENTOS Y LOGROS
+   ========================================================== */
+
+/* ---------- Pestañas ---------- */
+.tabs {
+  display: inline-flex;
+  gap: 4px;
+  padding: 4px;
+  margin-bottom: 8px;
+  background: #f3f1ed;
+  border-radius: 999px;
+}
+.tabs__tab {
+  height: 32px;
+  padding: 0 18px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--muted);
+  background: none;
+  border: 0;
+  border-radius: 999px;
+  cursor: pointer;
+  transition:
+    background-color 150ms ease-out,
+    color 150ms ease-out;
+}
+.tabs__tab--active {
+  color: var(--white);
+  background: var(--ink);
+}
+/* ---------- Lista de reconocimientos ---------- */
+.kudos-list {
+  list-style: none;
+}
+.kudos-item {
+  display: flex;
+  gap: 14px;
+  padding: 18px 0;
+  border-bottom: 1px solid var(--border);
+}
+.kudos-item:last-child {
+  border-bottom: 0;
+}
+.kudos-item__icon {
+  width: 34px;
+  height: 34px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+}
+.kudos-item__icon--green { background: #e3f4ea; color: #22693f; }
+.kudos-item__icon--amber { background: #fff1d9; color: #93520a; }
+.kudos-item__icon--purple { background: #eeeafd; color: #5340a8; }
+.kudos-item__message {
+  margin-top: 6px;
+  font-size: 13px;
+}
+.kudos-item__time {
+  margin-top: 4px;
+  font-size: 11px;
+  color: var(--muted);
+}
+.modal-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 20px;
+}
+.modal-title {
+  padding-right: 32px;
+  font-size: 18px;
+  font-weight: 700;
+}
+.modal-text {
+  margin-top: 4px;
+  font-size: 13px;
+  color: var(--muted);
+}
+/* ---------- Puntos ---------- */
+.points-hero {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 28px 32px;
+  margin-bottom: 20px;
+  color: var(--white);
+  background: var(--ink);
+  border-radius: 18px;
+}
+.points-hero__value {
+  font-size: 32px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: #f2b04b;
+}
+.points-hero__level {
+  margin-top: 6px;
+  font-size: 13px;
+  color: #c3c8d4;
+}
+.progress {
+  width: 260px;
+  max-width: 100%;
+  height: 6px;
+  margin-top: 14px;
+  overflow: hidden;
+  background: #2f3953;
+  border-radius: 999px;
+}
+.progress__fill {
+  height: 100%;
+  background: #f2b04b;
+  border-radius: 999px;
+}
+.trophy-button {
+  width: 56px;
+  height: 56px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #f2b04b;
+  background: #222c45;
+  border: 0;
+  border-radius: 50%;
+  cursor: pointer;
+  transition:
+    background-color 150ms ease-out,
+    transform 150ms var(--ease);
+}
+.trophy-button:hover {
+  background: #2b3653;
+  transform: scale(1.05);
+}
+.achievements-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+.achievements-grid .card {
+  min-height: 300px;
+}
+/* ---------- Insignias ---------- */
+.badge-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(104px, 1fr));
+  gap: 12px;
+}
+.badge-tile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 16px 8px;
+  text-align: center;
+  background: #fffcf6;
+  border: 1px solid #f3e6cf;
+  border-radius: 14px;
+  cursor: pointer;
+  transition:
+    transform 150ms var(--ease),
+    box-shadow 150ms var(--ease);
+}
+.badge-tile:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px -12px rgba(20, 27, 45, 0.3);
+}
+.badge-tile--locked {
+  background: #fafaf8;
+  border-color: var(--border);
+}
+.badge-tile__icon {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--accent-text);
+  background: var(--accent-soft);
+  border-radius: 50%;
+}
+.badge-tile--locked .badge-tile__icon {
+  color: #a3a8b3;
+  background: #f0eee9;
+}
+.badge-tile__name {
+  margin-top: 10px;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.3;
+}
+.badge-tile--locked .badge-tile__name {
+  color: var(--muted);
+}
+.badge-tile__caption {
+  margin-top: 2px;
+  font-size: 10px;
+  color: var(--muted);
+}
+/* ---------- Historial ---------- */
+.history-list {
+  list-style: none;
+}
+.history-item {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 0;
+  font-size: 13px;
+  border-bottom: 1px solid var(--border);
+}
+.history-item__points {
+  font-weight: 700;
+  color: #22693f;
+}
+/* ---------- Detalle de insignia ---------- */
+.badge-detail {
+  text-align: center;
+}
+.badge-detail__icon {
+  width: 72px;
+  height: 72px;
+  margin: 8px auto 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--accent-text);
+  background: var(--accent-soft);
+  border: 1.5px solid var(--accent);
+  border-radius: 50%;
+}
+.badge-detail--locked .badge-detail__icon {
+  color: #a3a8b3;
+  background: #f0eee9;
+  border-color: #dcd9d2;
+}
+.badge-detail__title {
+  font-size: 20px;
+  font-weight: 700;
+}
+.badge-detail__text {
+  margin-top: 6px;
+  font-size: 13px;
+  color: var(--muted);
+}
+.badge-detail__date {
+  margin-top: 16px;
+  padding-top: 16px;
+  font-size: 11px;
+  color: var(--muted);
+  border-top: 1px solid var(--border);
+}
+.badge-detail__date--highlight {
+  font-weight: 600;
+  color: var(--accent-text);
+}
+.badge-detail .btn {
+  margin-top: 16px;
+}
+@media (max-width: 900px) {
+  .achievements-grid {
+    grid-template-columns: 1fr;
+  }
+  .achievements-grid .card {
+    min-height: 0;
+  }
+}

@@ -1,0 +1,107 @@
+/* ==========================================================
+   PROYECTOS (líder)
+   ========================================================== */
+.project-list {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+}
+.project-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr) 120px auto;
+  align-items: center;
+  gap: 20px;
+  padding: 18px 22px;
+  border-bottom: 1px solid var(--border);
+}
+.project-row:last-child {
+  border-bottom: 0;
+}
+.project-row__name {
+  font-size: 15px;
+  font-weight: 700;
+}
+.project-row__desc {
+  margin-top: 2px;
+  font-size: 12px;
+  color: var(--muted);
+}
+.project-row__meta {
+  margin-top: 6px;
+  font-size: 11px;
+  color: var(--muted);
+}
+.project-row__label {
+  margin-bottom: 6px;
+  font-size: 11px;
+  color: var(--muted);
+}
+/* Avatares superpuestos del equipo */
+.avatar-stack {
+  display: flex;
+  align-items: center;
+}
+.avatar-stack > * {
+  margin-left: -6px;
+  box-shadow: 0 0 0 2px var(--surface);
+}
+.avatar-stack > *:first-child {
+  margin-left: 0;
+}
+.avatar-stack__names {
+  margin-left: 10px;
+  overflow: hidden;
+  font-size: 12px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  color: var(--muted);
+}
+.project-row__empty-team {
+  font-size: 12px;
+  color: #b42323;
+}
+.project-row__hours {
+  font-size: 15px;
+  font-weight: 700;
+}
+.project-row__hours small {
+  display: block;
+  font-size: 11px;
+  font-weight: 400;
+  color: var(--muted);
+}
+.project-empty {
+  padding: 32px;
+  font-size: 13px;
+  text-align: center;
+  color: var(--muted);
+}
+/* Ventana de proyecto: lista de integrantes con casilla */
+.member-check {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--white);
+  border: 1.5px solid var(--line);
+  border-radius: 5px;
+}
+.assign-option--selected .member-check {
+  background: #3fae86;
+  border-color: #3fae86;
+}
+.assign-option--locked {
+  cursor: default;
+}
+.team-summary {
+  font-size: 12px;
+  color: var(--muted);
+}
+@media (max-width: 900px) {
+  .project-row {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+}

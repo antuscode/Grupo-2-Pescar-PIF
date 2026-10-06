@@ -1,0 +1,249 @@
+/* ==========================================================
+   DASHBOARD DEL EQUIPO (líder)
+   ========================================================== */
+.team-search {
+  width: 220px;
+}
+.team-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+  gap: 20px;
+  align-items: start;
+}
+.team-col {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.wellbeing {
+  padding: 24px 28px;
+  color: var(--white);
+  background: #24345a;
+  border-radius: 18px;
+}
+.wellbeing__label {
+  font-size: 12px;
+  color: #c3cbe0;
+}
+.wellbeing__value {
+  margin-top: 6px;
+  font-size: 34px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+.wellbeing__text {
+  margin-top: 4px;
+  font-size: 12px;
+  color: #c3cbe0;
+}
+/* Tabla de carga */
+.load-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+.load-table th {
+  padding: 0 0 10px;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-align: left;
+  text-transform: uppercase;
+  color: var(--muted);
+  border-bottom: 1px solid var(--border);
+}
+.load-table td {
+  padding: 12px 0;
+  vertical-align: middle;
+  border-bottom: 1px solid var(--border);
+}
+.load-table tr:last-child td {
+  border-bottom: 0;
+}
+.member {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.member__name {
+  font-weight: 600;
+}
+.member__role {
+  font-size: 11px;
+  color: var(--muted);
+}
+.meter {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.meter__track {
+  width: 100px;
+  height: 6px;
+  overflow: hidden;
+  background: #eeece7;
+  border-radius: 999px;
+}
+.meter__fill {
+  height: 100%;
+  border-radius: 999px;
+  transition: width 240ms var(--ease);
+}
+.meter__value {
+  font-size: 11px;
+  color: var(--muted);
+}
+.meter__fill--green { background: #3fae86; }
+.meter__fill--amber { background: #f0a640; }
+.meter__fill--red { background: #e8746a; }
+.recognitions-stat {
+  padding: 16px;
+  text-align: center;
+  background: #faf9f6;
+  border-radius: 12px;
+}
+.recognitions-stat__value {
+  font-size: 24px;
+  font-weight: 700;
+}
+.recognitions-stat__label {
+  font-size: 11px;
+  color: var(--muted);
+}
+.section-title {
+  font-size: 14px;
+  font-weight: 700;
+}
+.alert-card {
+  padding: 16px;
+  background: #fff6f2;
+  border: 1px solid #f6d2c6;
+  border-radius: 14px;
+}
+.alert-card__title {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 700;
+  color: #b4412a;
+}
+.alert-card__text {
+  margin: 6px 0 12px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #8a3a28;
+}
+.alerts-empty {
+  padding: 16px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--success-strong);
+  background: var(--success-bg);
+  border: 1px solid var(--success-border);
+  border-radius: 14px;
+}
+/* ---------- Diagnóstico (ventana) ---------- */
+.diag-stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 16px;
+}
+.diag-stat {
+  padding: 12px 14px;
+  background: #faf9f6;
+  border-radius: 12px;
+}
+.diag-stat__label {
+  font-size: 11px;
+  color: var(--muted);
+}
+.diag-stat__value {
+  margin: 2px 0 6px;
+  font-size: 22px;
+  font-weight: 700;
+}
+.diag-stat__value small {
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--muted);
+}
+.diag-stat__value--red {
+  color: #d1543e;
+}
+.diag-label {
+  margin: 18px 0 8px;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.diag-tasks {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  list-style: none;
+}
+.diag-task {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 14px;
+  font-size: 13px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+}
+.diag-task--flag {
+  background: #fff6f2;
+  border-color: #f6d2c6;
+}
+.diag-task__name {
+  font-weight: 600;
+}
+.diag-task__hours {
+  color: var(--muted);
+}
+label.diag-task {
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+}
+label.diag-task input {
+  accent-color: var(--accent);
+}
+.recommendation {
+  margin-top: 14px;
+  padding: 12px 14px;
+  font-size: 12px;
+  line-height: 1.5;
+  background: #fff4dc;
+  border: 1px solid #f6dfae;
+  border-radius: 12px;
+}
+.recommendation__title {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 4px;
+  font-weight: 700;
+}
+.projection {
+  margin-top: 12px;
+  font-size: 12px;
+  color: var(--muted);
+}
+.projection strong {
+  color: var(--ink);
+}
+@media (max-width: 900px) {
+  .team-grid {
+    grid-template-columns: 1fr;
+  }
+  .team-search {
+    width: 100%;
+  }
+  .meter__track {
+    width: 64px;
+  }
+}

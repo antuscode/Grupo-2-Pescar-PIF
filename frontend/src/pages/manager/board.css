@@ -1,0 +1,232 @@
+/* ==========================================================
+   PROYECTOS Y TAREAS (líder) + CREAR Y ASIGNAR TAREA
+   ========================================================== */
+.board-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+.board-toolbar .select {
+  width: auto;
+  min-width: 160px;
+}
+.board-toolbar .btn {
+  margin-left: auto;
+}
+/* ---------- Capacidad general ---------- */
+.capacity {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  padding: 14px 20px;
+  margin-bottom: 20px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+}
+.capacity__label {
+  font-size: 11px;
+  color: var(--muted);
+}
+.capacity__value {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  font-size: 20px;
+  font-weight: 700;
+}
+.capacity__hours {
+  font-size: 11px;
+  font-weight: 400;
+  color: var(--muted);
+}
+.capacity__track {
+  flex: 1;
+  height: 8px;
+  overflow: hidden;
+  background: #eeece7;
+  border-radius: 999px;
+}
+.capacity__fill {
+  height: 100%;
+  background: #3fae86;
+  border-radius: 999px;
+  transition: width 240ms var(--ease);
+}
+.capacity__fill--high {
+  background: #f0a640;
+}
+/* ---------- Columnas por proyecto ---------- */
+.board {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+  align-items: start;
+}
+.board-column {
+  padding: 12px;
+  background: #efede8;
+  border-radius: 14px;
+}
+.board-column__head {
+  display: flex;
+  justify-content: space-between;
+  padding: 4px 4px 12px;
+  font-size: 13px;
+  font-weight: 700;
+}
+.board-column__count {
+  color: var(--muted);
+}
+.board-column__list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.board-card {
+  padding: 12px 14px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+}
+.board-card__title {
+  font-size: 13px;
+  font-weight: 600;
+}
+.board-card__foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-top: 10px;
+  font-size: 11px;
+}
+.board-card__person {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 600;
+}
+.board-card__meta {
+  color: var(--muted);
+  white-space: nowrap;
+}
+.board-column__empty {
+  padding: 16px 8px;
+  font-size: 12px;
+  text-align: center;
+  color: var(--muted);
+}
+/* ---------- Ventana de crear y asignar ---------- */
+.assign-form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-top: 16px;
+}
+.assign-form .field__label {
+  margin-bottom: 6px;
+}
+.assign-row {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr 1fr;
+  gap: 10px;
+}
+.assign-options {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.assign-option {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  cursor: pointer;
+  transition:
+    background-color 150ms ease-out,
+    border-color 150ms ease-out;
+}
+.assign-option input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+.assign-option:has(input:focus-visible) {
+  outline: 2px solid var(--sun);
+  outline-offset: 2px;
+}
+.assign-option--selected {
+  background: #ecf8f2;
+  border-color: #3fae86;
+}
+.assign-option--blocked {
+  background: #fdf6f4;
+  cursor: not-allowed;
+}
+.assign-option--blocked .assign-option__name,
+.assign-option--blocked .assign-option__meta {
+  color: #8f949f;
+}
+.assign-option__body {
+  flex: 1;
+  min-width: 0;
+}
+.assign-option__name {
+  font-size: 13px;
+  font-weight: 600;
+}
+.assign-option__meta {
+  margin-top: 2px;
+  font-size: 11px;
+  color: var(--muted);
+}
+.projected {
+  padding: 12px 14px;
+  background: #ecf8f2;
+  border: 1px solid #c9ebdb;
+  border-radius: 10px;
+}
+.projected__text {
+  font-size: 12px;
+  color: var(--success-strong);
+}
+.projected__text strong {
+  font-weight: 700;
+}
+.projected__track {
+  height: 6px;
+  margin-top: 8px;
+  overflow: hidden;
+  background: #d5eee2;
+  border-radius: 999px;
+}
+.projected__fill {
+  height: 100%;
+  background: #3fae86;
+  border-radius: 999px;
+  transition: width 200ms var(--ease);
+}
+@media (max-width: 900px) {
+  .board {
+    grid-template-columns: 1fr;
+  }
+  .board-toolbar .btn {
+    margin-left: 0;
+  }
+  .capacity {
+    flex-wrap: wrap;
+  }
+  .capacity__track {
+    flex-basis: 100%;
+    order: 3;
+  }
+  .assign-row {
+    grid-template-columns: 1fr;
+  }
+}

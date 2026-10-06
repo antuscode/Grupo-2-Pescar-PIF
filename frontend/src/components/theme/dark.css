@@ -1,0 +1,271 @@
+/* ==========================================================
+   MODO NOCHE
+   Se activa con <html data-theme="dark">.
+   Usa la misma paleta de Lumora: el azul tinta (#141b2d) pasa a ser
+   el fondo, el naranja sigue siendo el acento y los tonos pastel
+   se oscurecen manteniendo su color.
+   ========================================================== */
+
+/* ---------- Botón para cambiar de tema ---------- */
+.theme-toggle {
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  border-radius: 8px;
+  cursor: pointer;
+  transition:
+    background-color 150ms ease-out,
+    color 150ms ease-out;
+}
+.theme-toggle--onDark {
+  color: #9ba2b4;
+  background: none;
+}
+.theme-toggle--onDark:hover {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.08);
+}
+/* ---------- Colores base ---------- */
+html[data-theme='dark'] {
+  color-scheme: dark;
+  /* --ink es el color del texto; --white el de las superficies */
+  --ink: #e9ecf3;
+  --ink-hover: #ffffff;
+  --canvas: #0b0f1a;
+  --white: #161d2e;
+  --surface: #161d2e;
+  --muted: #9aa2b5;
+  --placeholder: #6b7388;
+  --line: #2e374d;
+  --border: #232b3f;
+  --accent: #f09a36;
+  --accent-hover: #f5a84f;
+  --accent-text: #f6b366;
+  --accent-soft: #3a2a14;
+  --error: #f07a7a;
+  --error-strong: #f28b8b;
+  --error-border: #e06060;
+  --error-bg: #2c1719;
+  --error-bg-border: #5a2a2e;
+  --success: #5fcf94;
+  --success-strong: #8be0b2;
+  --success-soft: #173326;
+  --success-bg: #12271d;
+  --success-border: #24513a;
+  /* Rellenos neutros propios del modo noche */
+  --fill: #1f2739;
+  --fill-hover: #283149;
+  --fill-deep: #121827;
+  --track: #2a3348;
+  --check-border: #4a5470;
+}
+/* Piezas que ya eran azul oscuro en el modo día:
+   recuperan sus colores originales para verse igual */
+html[data-theme='dark'] :is(
+    .topbar,
+    .brand,
+    .sidebar,
+    .avatar,
+    .lumi-dot,
+    .load-hero,
+    .kudos,
+    .points-hero,
+    .trophy-button,
+    .task-stat--urgent,
+    .lumi-card,
+    .wellbeing,
+    .kpi--primary,
+    .side-hero,
+    .plan-link,
+    .toast,
+    .onb-card--dark,
+    .onb-card--navy,
+    .onb-quote-icon--round
+  ) {
+  --ink: #141b2d;
+  --ink-hover: #232c44;
+  --white: #ffffff;
+}
+html[data-theme='dark'] .sidebar {
+  border-right: 1px solid var(--border);
+}
+html[data-theme='dark'] .topbar {
+  border-bottom-color: var(--border);
+}
+html[data-theme='dark'] :is(.load-hero, .lumi-card, .task-stat--urgent, .onb-card--dark) {
+  background: #1a2238;
+}
+/* ---------- Pastillas e íconos de color ---------- */
+html[data-theme='dark'] :is(.pill--red, .kpi__icon--red) { background: #3a1c1f; color: #f4a3a3; }
+html[data-theme='dark'] :is(.pill--amber, .pulse__tile--amber, .kudos-item__icon--amber) { background: #3a2a12; color: #f3c27a; }
+html[data-theme='dark'] .pill--blue { background: #1b2a4a; color: #9db8f2; }
+html[data-theme='dark'] :is(.pill--green, .kpi__icon--green, .pulse__tile--green, .kudos-item__icon--green) { background: #15322a; color: #7fd6a8; }
+html[data-theme='dark'] :is(.pill--purple, .pulse__tile--purple, .kudos-item__icon--purple) { background: #2a2448; color: #bcaef5; }
+html[data-theme='dark'] .pill--neutral { background: var(--fill); }
+/* Textos verdes de "en línea" o "pagada" */
+html[data-theme='dark'] :is(
+    .floating-lumi__status,
+    .chat__status,
+    .onb-chat__status,
+    .history-item__points,
+    .monitor-head__status,
+    .invoice__status
+  ) {
+  color: #7fd6a8;
+}
+/* ---------- Rellenos neutros ---------- */
+html[data-theme='dark'] :is(
+    .tabs,
+    .modal__close,
+    .floating-lumi__prompt,
+    .chip,
+    .msg-lumi__bubble,
+    .week__day,
+    .onb-day,
+    .card-box,
+    .summary,
+    .recognitions-stat,
+    .diag-stat,
+    .report-highlights li,
+    .line-tabs__count,
+    .badge-tile--locked .badge-tile__icon,
+    .badge-detail--locked .badge-detail__icon
+  ) {
+  background: var(--fill);
+}
+html[data-theme='dark'] :is(
+    .btn--ghost:hover,
+    .modal__close:hover,
+    .floating-lumi__prompt:hover,
+    .chip:hover,
+    .week__day:hover,
+    .row-menu__button:hover,
+    .row-menu__item:hover,
+    .checklist__remove:hover,
+    a.setting-row:hover,
+    .conv:hover
+  ) {
+  background: var(--fill-hover);
+}
+html[data-theme='dark'] :is(.task-table th, .comment-box, .input--readonly, .badge-tile--locked) {
+  background: var(--fill-deep);
+}
+html[data-theme='dark'] .board-column {
+  background: var(--fill-deep);
+}
+html[data-theme='dark'] :is(.meter__track, .capacity__track, .onb-load__track) {
+  background: var(--track);
+}
+html[data-theme='dark'] .btn--ghost {
+  border-color: var(--line);
+}
+html[data-theme='dark'] :is(.badge-tile--locked .badge-tile__icon, .badge-detail--locked .badge-detail__icon) {
+  color: #6b7388;
+}
+html[data-theme='dark'] .badge-detail--locked .badge-detail__icon {
+  border-color: var(--line);
+}
+/* Bordes de casillas y círculos */
+html[data-theme='dark'] :is(.today-check, .round-check, .checklist__circle, .onb-task__circle, .checkbox__input) {
+  border-color: var(--check-border);
+}
+html[data-theme='dark'] :is(.round-check--done, .today-check--done) {
+  border-color: #4dbb8f;
+}
+html[data-theme='dark'] .checkbox__input:checked {
+  border-color: var(--ink);
+}
+html[data-theme='dark'] :is(.switch, .onb-dot) {
+  background: #3a4358;
+}
+html[data-theme='dark'] .switch[aria-checked='true'] {
+  background: #3fae86;
+}
+html[data-theme='dark'] .onb-dot--active {
+  background: var(--accent);
+}
+html[data-theme='dark'] .field__toggle {
+  color: var(--muted);
+}
+/* ---------- Tonos cálidos (naranja / amarillo) ---------- */
+html[data-theme='dark'] :is(.agenda__time, .conv--active, .onb-tag, .onb-bubble-bot) {
+  background: #3a2a12;
+}
+html[data-theme='dark'] .conv--active:hover {
+  background: #3a2a12;
+}
+html[data-theme='dark'] .recommendation {
+  background: #2e2412;
+  border-color: #5c4520;
+}
+html[data-theme='dark'] .badge-tile {
+  background: #221d14;
+  border-color: #4a3d22;
+}
+html[data-theme='dark'] .badge-tile--locked {
+  border-color: var(--border);
+}
+/* ---------- Tarjeta de foco (violeta) ---------- */
+html[data-theme='dark'] .focus-card {
+  background: #2a2448;
+}
+html[data-theme='dark'] :is(.focus-card__icon, .focus-card__label, .focus-card__percent) {
+  color: #bcaef5;
+}
+/* ---------- Alertas (rojo suave) ---------- */
+html[data-theme='dark'] :is(.alert-card, .diag-task--flag) {
+  background: #2c1a17;
+  border-color: #5a3026;
+}
+html[data-theme='dark'] .alert-card__title {
+  color: #f4a58f;
+}
+html[data-theme='dark'] .alert-card__text {
+  color: #e8b4a6;
+}
+html[data-theme='dark'] .diag-stat__value--red {
+  color: #f08a76;
+}
+html[data-theme='dark'] .project-row__empty-team {
+  color: var(--error);
+}
+/* ---------- Asignar tarea / proyecto ---------- */
+html[data-theme='dark'] .assign-option--selected {
+  background: #15322a;
+}
+html[data-theme='dark'] .assign-option--blocked {
+  background: #241618;
+}
+html[data-theme='dark'] .projected {
+  background: #15322a;
+  border-color: #24513a;
+}
+html[data-theme='dark'] .projected__track {
+  background: #1f4434;
+}
+/* ---------- Bienvenida (introducción) ---------- */
+html[data-theme='dark'] .onboarding {
+  --accent-soft: #3a2a14;
+  --border: #232b3f;
+}
+html[data-theme='dark'] .onb-preview {
+  background: #1d1912;
+}
+html[data-theme='dark'] :is(.onb-preview__label, .onb-preview__caption) {
+  color: #f3c27a;
+}
+html[data-theme='dark'] :is(.onb-chat, .onb-suggestion) {
+  background: var(--surface);
+}
+html[data-theme='dark'] :is(.onb-chat__head, .onb-chat__input) {
+  border-color: var(--border);
+}
+/* Sombras: en fondo oscuro se ven más profundas */
+html[data-theme='dark'] :is(.modal, .floating-lumi__panel, .row-menu__list) {
+  border: 1px solid var(--line);
+  box-shadow: 0 24px 56px -16px rgba(0, 0, 0, 0.7);
+}

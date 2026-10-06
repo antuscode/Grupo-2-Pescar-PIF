@@ -1,0 +1,302 @@
+/* ==========================================================
+   INICIO DEL EMPLEADO
+   ========================================================== */
+
+/* ---------- Carga laboral (lo más importante) ---------- */
+.load-hero {
+  display: grid;
+  grid-template-columns: 220px 1fr auto;
+  align-items: center;
+  gap: 40px;
+  padding: 24px 28px;
+  margin-bottom: 20px;
+  color: var(--white);
+  background: var(--ink);
+  border-radius: 18px;
+}
+.load-hero__label {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #9ba2b4;
+}
+.load-hero__state {
+  margin-top: 6px;
+  font-size: 22px;
+  font-weight: 700;
+}
+.load-hero__text {
+  margin-top: 8px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #c3c8d4;
+}
+.load-bar {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 6px;
+}
+.load-bar__segment {
+  height: 6px;
+  border-radius: 999px;
+}
+.load-bar__labels {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+  font-size: 10px;
+  color: #9ba2b4;
+}
+.load-bar__current {
+  font-weight: 600;
+  color: #ffd970;
+}
+.load-hero__time {
+  text-align: right;
+}
+.load-hero__hours {
+  font-size: 32px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+.load-hero__of {
+  margin-top: 8px;
+  font-size: 11px;
+  color: #9ba2b4;
+}
+/* ---------- Grilla principal ---------- */
+.dash-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+  gap: 20px;
+}
+.dash-col {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.dash-col .card--grow {
+  flex: 1;
+}
+/* ---------- Tareas de hoy ---------- */
+.today-list {
+  list-style: none;
+}
+.today-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border);
+}
+.today-item:last-child {
+  border-bottom: 0;
+}
+.today-check {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--white);
+  background: var(--white);
+  border: 1.5px solid #c9c6bf;
+  border-radius: 50%;
+  cursor: pointer;
+  transition:
+    background-color 150ms ease-out,
+    border-color 150ms ease-out;
+}
+.today-check:hover {
+  border-color: var(--ink);
+}
+.today-check--done {
+  background: #4dbb8f;
+  border-color: #4dbb8f;
+}
+.today-item__body {
+  flex: 1;
+  min-width: 0;
+}
+.today-item__title {
+  font-size: 13px;
+  font-weight: 600;
+}
+.today-item--done .today-item__title {
+  color: var(--muted);
+  text-decoration: line-through;
+}
+.today-item__meta {
+  margin-top: 2px;
+  font-size: 11px;
+  color: var(--muted);
+}
+.today-item__dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+}
+/* ---------- Enfoque de la semana ---------- */
+.focus-card {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 20px 24px;
+  background: #eeeafd;
+  border-radius: 16px;
+}
+.focus-card__icon {
+  width: 44px;
+  height: 44px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #6b55c8;
+  background: var(--white);
+  border-radius: 12px;
+}
+.focus-card__body {
+  flex: 1;
+  min-width: 0;
+}
+.focus-card__label {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #5340a8;
+}
+.focus-card__title {
+  margin-top: 4px;
+  font-size: 15px;
+  font-weight: 700;
+}
+.focus-card__meta {
+  margin-top: 2px;
+  font-size: 11px;
+  color: var(--muted);
+}
+.focus-card__percent {
+  font-size: 24px;
+  font-weight: 700;
+  color: #5340a8;
+}
+/* ---------- Agenda ---------- */
+.agenda {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.agenda__time {
+  width: 60px;
+  padding: 10px 0;
+  text-align: center;
+  background: #fff4dc;
+  border-radius: 10px;
+}
+.agenda__hour {
+  font-size: 15px;
+  font-weight: 700;
+}
+.agenda__duration {
+  font-size: 10px;
+  color: var(--muted);
+}
+.agenda__title {
+  font-size: 13px;
+  font-weight: 600;
+}
+.agenda__team {
+  margin-top: 2px;
+  font-size: 11px;
+  color: var(--muted);
+}
+.agenda__people {
+  display: flex;
+  margin-top: 6px;
+}
+.agenda__person {
+  width: 18px;
+  height: 18px;
+  border: 2px solid var(--white);
+  border-radius: 50%;
+}
+.agenda__person + .agenda__person {
+  margin-left: -6px;
+}
+/* ---------- Pulso ---------- */
+.pulse {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+.pulse__tile {
+  padding: 10px 4px;
+  text-align: center;
+  border-radius: 10px;
+}
+.pulse__value {
+  font-size: 12px;
+  font-weight: 700;
+}
+.pulse__label {
+  margin-top: 2px;
+  font-size: 10px;
+  color: var(--muted);
+}
+.pulse__tile--green { background: #e3f4ea; color: #22693f; }
+.pulse__tile--amber { background: #fff1d9; color: #93520a; }
+.pulse__tile--purple { background: #eeeafd; color: #5340a8; }
+.pulse__insight {
+  margin-top: 12px;
+  font-size: 11px;
+  line-height: 1.5;
+  color: var(--muted);
+}
+/* ---------- Reconocimiento ---------- */
+.kudos {
+  flex: 1;
+  padding: 20px 24px;
+  color: var(--white);
+  background: #1f2a44;
+  border-radius: 16px;
+}
+.kudos__label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #ffd970;
+}
+.kudos__quote {
+  margin-top: 12px;
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1.4;
+}
+.kudos__from {
+  margin-top: 8px;
+  font-size: 11px;
+  color: #9ba2b4;
+}
+@media (max-width: 1100px) {
+  .load-hero {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  .load-hero__time {
+    text-align: left;
+  }
+}
+@media (max-width: 900px) {
+  .dash-grid {
+    grid-template-columns: 1fr;
+  }
+}

@@ -1,0 +1,110 @@
+/* ==========================================================
+   CALENDARIO
+   ========================================================== */
+.calendar-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 300px;
+  gap: 20px;
+  align-items: start;
+}
+.week {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 8px;
+}
+.week__name {
+  margin-bottom: 8px;
+  font-size: 11px;
+  text-align: center;
+  color: var(--muted);
+}
+.week__day {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  font-size: 15px;
+  font-weight: 600;
+  background: #f3f1ed;
+  border: 2px solid transparent;
+  border-radius: 12px;
+  cursor: pointer;
+  transition:
+    background-color 150ms ease-out,
+    border-color 150ms ease-out;
+}
+.week__day:hover {
+  background: #ebe8e2;
+}
+.week__day--today {
+  border-color: var(--accent);
+}
+.week__day--selected,
+.week__day--selected:hover {
+  color: var(--white);
+  background: var(--ink);
+}
+.week__dots {
+  display: flex;
+  gap: 4px;
+  height: 6px;
+}
+.week__dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+}
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 18px;
+  margin-top: 16px;
+  font-size: 11px;
+  color: var(--muted);
+}
+.legend__item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.agenda-list {
+  list-style: none;
+}
+.agenda-item {
+  display: grid;
+  grid-template-columns: 44px 1fr;
+  gap: 12px;
+  padding: 12px 0;
+  font-size: 13px;
+  border-bottom: 1px solid var(--border);
+}
+.agenda-item:last-child {
+  border-bottom: 0;
+}
+.agenda-item__time {
+  color: var(--muted);
+}
+.agenda-item__title {
+  padding-left: 12px;
+  border-left: 3px solid;
+}
+.agenda-empty {
+  font-size: 13px;
+  color: var(--muted);
+}
+@media (max-width: 900px) {
+  .calendar-layout {
+    grid-template-columns: 1fr;
+  }
+  .week {
+    gap: 4px;
+  }
+  .week__day {
+    font-size: 13px;
+    border-radius: 8px;
+  }
+}

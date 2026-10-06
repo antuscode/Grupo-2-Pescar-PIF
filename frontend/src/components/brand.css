@@ -1,0 +1,138 @@
+/* ==========================================================
+   IDENTIDAD VISUAL COMPARTIDA
+   Barra superior con el logo + ilustración de Lumi.
+   Se usa igual en todas las pantallas.
+   ========================================================== */
+:root {
+  --topbar-height: 64px;
+  --lumi-image: url('https://cdn.magicpatterns.com/uploads/6CdmcQdMoSn2Y2ifyFHhdb/WhatsApp_Image_2026-10-06_at_16.38.00.jpg');
+  --lumi-bg: #fff3d1;
+  --lumi-ring: #ffd970;
+}
+/* ---------- Barra superior ---------- */
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  height: var(--topbar-height);
+  padding: 0 24px;
+  background: var(--ink);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+.topbar__brand {
+  display: flex;
+  align-items: center;
+  border-radius: 6px;
+}
+.topbar__logo {
+  width: 84px;
+  height: auto;
+}
+.topbar__tagline {
+  padding-left: 16px;
+  font-size: 12px;
+  color: #c3c8d4;
+  border-left: 1px solid #39425a;
+}
+.topbar__actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: auto;
+}
+.topbar__menu {
+  display: none;
+  width: 40px;
+  height: 40px;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  background: none;
+  border: 0;
+  border-radius: 10px;
+  cursor: pointer;
+}
+/* Botón secundario sobre la barra (ej. "Iniciar sesión") */
+.topbar__link {
+  display: inline-flex;
+  align-items: center;
+  height: 38px;
+  padding: 0 16px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #ffffff;
+  border: 1px solid #4a5470;
+  border-radius: 10px;
+  transition:
+    background-color 150ms ease-out,
+    border-color 150ms ease-out;
+}
+.topbar__link:hover {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: #6b7591;
+}
+/* ---------- Espacio del empleado y del líder ---------- */
+html .app {
+  flex-direction: column;
+}
+.app__body {
+  flex: 1;
+  display: flex;
+  min-width: 0;
+}
+html .app .sidebar {
+  top: var(--topbar-height);
+  height: calc(100vh - var(--topbar-height));
+}
+/* ---------- Pantallas de acceso ---------- */
+.auth-page {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  min-height: 100vh;
+  background: var(--canvas);
+}
+html .auth-page .auth-layout {
+  flex: 1;
+  min-height: calc(100vh - var(--topbar-height));
+}
+.brand__lumi {
+  width: 220px;
+  height: 220px;
+  flex-shrink: 0;
+}
+/* ---------- Ilustración de Lumi ----------
+   La imagen tiene fondo claro: se mezcla con un círculo amarillo
+   suave para que quede integrada en cualquier fondo. */
+html :is(.floating-lumi__avatar, .lumi-avatar, .onb-chat__avatar, .lumi-dot, .brand__lumi) {
+  background: var(--lumi-image) center 45% / 112% no-repeat var(--lumi-bg);
+  background-blend-mode: multiply;
+  border: 2px solid var(--lumi-ring);
+  border-radius: 50%;
+}
+html .brand__lumi {
+  border-width: 6px;
+}
+@media (max-width: 900px) {
+  .topbar {
+    padding: 0 12px 0 8px;
+    gap: 8px;
+  }
+  .topbar__menu {
+    display: flex;
+  }
+  .topbar__tagline {
+    display: none;
+  }
+  html .app .sidebar {
+    top: 0;
+    height: 100vh;
+  }
+  .brand__lumi {
+    width: 120px;
+    height: 120px;
+  }
+}
