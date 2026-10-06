@@ -1,3 +1,4 @@
+import { newId } from '../../utils/id';
 import React, { useEffect, useState } from 'react';
 import { format } from 'date-fns';
 import { es } from 'date-fns/locale';
@@ -48,7 +49,7 @@ export function NewTeamTaskModal({ open, members, projects, onClose, onSave }) {
     if (Object.keys(next).length > 0) return;
 
     onSave(selected, {
-      id: `t${Date.now()}`,
+      id: newId('t'),
       title: form.title.trim(),
       project: form.project,
       hours,

@@ -1,3 +1,4 @@
+import { newId } from '../../utils/id';
 import React, { useState } from 'react';
 import { CircleCheckIcon, HeartIcon, LightbulbIcon, PlusIcon, SparklesIcon, UsersIcon } from 'lucide-react';
 import { Modal } from '../../components/app/Modal';
@@ -48,7 +49,7 @@ export function Recognitions() {
       setError('Contale qué valorás de su trabajo.');
       return;
     }
-    addRecognition({ id: `r${Date.now()}`, person, category, message: message.trim(), time: 'Recién' });
+    addRecognition({ id: newId('r'), person, category, message: message.trim(), time: 'Recién' });
     setNotice(`Enviaste un reconocimiento a ${person}.`);
     setMessage('');
     setTab('sent');

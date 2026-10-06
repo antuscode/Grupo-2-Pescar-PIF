@@ -1,3 +1,4 @@
+import { newId } from '../../utils/id';
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { CircleCheckIcon, FolderKanbanIcon, PlusIcon, UsersIcon } from 'lucide-react';
@@ -18,7 +19,7 @@ export function Projects() {
 
   const handleSave = (data) => {
     if (modal === 'new') {
-      addProject({ id: `pj${Date.now()}`, ...data });
+      addProject({ id: newId('pj'), ...data });
       setNotice(
         data.memberIds.length ?
         `Creaste “${data.name}” con un equipo de ${data.memberIds.length} ${data.memberIds.length === 1 ? 'persona' : 'personas'}.` :

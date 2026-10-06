@@ -1,3 +1,4 @@
+import { newId } from '../../utils/id';
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { CheckIcon, ChevronRightIcon, PlusIcon, XIcon } from 'lucide-react';
@@ -50,7 +51,7 @@ export function NewTask() {
     if (Object.keys(next).length > 0) return;
 
     addTask({
-      id: `tarea-${Date.now()}`,
+      id: newId('tarea-'),
       title: title.trim(),
       project,
       priority,

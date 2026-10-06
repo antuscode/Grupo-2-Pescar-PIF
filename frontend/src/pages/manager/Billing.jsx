@@ -1,3 +1,4 @@
+import { newId } from '../../utils/id';
 import React, { useState } from 'react';
 import { CircleCheckIcon } from 'lucide-react';
 import { Modal } from '../../components/app/Modal';
@@ -38,7 +39,7 @@ export function Billing() {
     setCard(newCard);
     if (payment.mode === 'pay') {
       setCurrentPlan(payment.plan.id);
-      setInvoices([{ id: `inv${Date.now()}`, month: 'Octubre 2026', status: 'Pagada' }, ...invoices]);
+      setInvoices([{ id: newId('inv'), month: 'Octubre 2026', status: 'Pagada' }, ...invoices]);
       setNotice(`¡Listo! Tu equipo ya tiene el plan ${payment.plan.name} con Lumi y alertas.`);
     } else {
       setNotice('Guardamos tu nueva tarjeta.');

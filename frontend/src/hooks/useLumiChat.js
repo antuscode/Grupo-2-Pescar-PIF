@@ -1,9 +1,10 @@
+import { newId } from '../utils/id';
 import { useRef, useState } from 'react';
 
 const now = () => new Date().toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit' });
 
 const emptyConversation = () => ({
-  id: `conv-${Date.now()}`,
+  id: newId('conv-'),
   group: 'Hoy',
   title: 'Nueva conversación',
   preview: 'Sin mensajes todavía',
@@ -58,11 +59,11 @@ export function useLumiChat(profile, ctx) {
     setConversations((prev) =>
     prev.map((c) => c.id === conversationId && c.messages.length === 0 ? { ...c, title: clean.slice(0, 40) } : c)
     );
-    addMessage(conversationId, { id: `u${Date.now()}`, from: 'user', text: clean, time: now() }, clean);
+    addMessage(conversationId, { id: newId('u'), from: 'user', text: clean, time: now() }, clean);
     setTyping(true);
     setTimeout(() => {
       const reply = replyFor(clean, profile, ctxRef.current);
-      addMessage(conversationId, { id: `l${Date.now()}`, from: 'lumi', text: reply, time: now() }, reply);
+      addMessage(conversationId, { id: newId('l'), from: 'lumi', text: reply, time: now() }, reply);
       setTyping(false);
     }, 800);
   };

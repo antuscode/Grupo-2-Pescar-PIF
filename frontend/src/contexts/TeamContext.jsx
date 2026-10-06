@@ -1,3 +1,4 @@
+import { newId } from '../utils/id';
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { useAppData } from './AppDataContext';
 import { ALERT_LOAD, memberColors, WEEKLY_HOURS } from '../data/team';
@@ -54,7 +55,7 @@ export function TeamProvider({ children }) {
   // Suma un integrante nuevo al equipo
   const addMember = ({ name, role, email }) => {
     const member = {
-      id: `m${Date.now()}`,
+      id: newId('m'),
       name,
       role,
       email,

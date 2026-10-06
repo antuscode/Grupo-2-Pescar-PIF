@@ -1,5 +1,4 @@
-/* Las fuentes (@import url) siempre van al principio del archivo. */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+/* La fuente Inter se carga desde index.html (más rápido que un @import acá). */
 
 /* ==========================================================
    0. RESET
@@ -621,4 +620,58 @@ ol {
     transition: none !important;
     animation: none !important;
   }
+}
+
+/* ==========================================================
+   11. PANTALLAS DE ESTADO (cargando y error)
+   ========================================================== */
+.route-loading {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--muted);
+}
+.error-screen {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  text-align: center;
+}
+.error-screen__title {
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+.error-screen__text {
+  max-width: 360px;
+  margin-top: 8px;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--muted);
+}
+.error-screen__actions {
+  display: flex;
+  gap: 12px;
+  width: 100%;
+  max-width: 360px;
+  margin-top: 24px;
+}
+.btn-secondary {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 48px;
+  font-size: 14px;
+  font-weight: 600;
+  background: transparent;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+}
+.btn-secondary:hover {
+  border-color: var(--ink);
 }

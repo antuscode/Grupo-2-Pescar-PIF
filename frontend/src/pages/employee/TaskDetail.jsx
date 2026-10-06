@@ -1,3 +1,4 @@
+import { newId } from '../../utils/id';
 import React, { useState } from 'react';
 import { Link, Navigate, useNavigate, useParams } from 'react-router-dom';
 import { CheckIcon, ChevronRightIcon, PlusIcon } from 'lucide-react';
@@ -31,7 +32,7 @@ export function TaskDetail() {
     e.preventDefault();
     if (!newSubtask.trim()) return;
     updateTask(task.id, {
-      subtasks: [...task.subtasks, { id: `s${Date.now()}`, text: newSubtask.trim(), done: false }]
+      subtasks: [...task.subtasks, { id: newId('s'), text: newSubtask.trim(), done: false }]
     });
     setNewSubtask('');
   };
@@ -43,7 +44,7 @@ export function TaskDetail() {
       comments: [
       ...task.comments,
       {
-        id: `c${Date.now()}`,
+        id: newId('c'),
         author: user.shortName,
         role: `${user.role} (Vos)`,
         time: 'Recién',
