@@ -25,7 +25,7 @@ export function App() {
     <ThemeProvider>
       <AppDataProvider>
         <TeamProvider>
-          <BrowserRouter>
+          <BrowserRouter basename={import.meta.env.BASE_URL}>
             <PageTitle />
             <ErrorBoundary>
               <Suspense fallback={<RouteLoading />}>
