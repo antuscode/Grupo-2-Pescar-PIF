@@ -8,25 +8,26 @@ import { PasswordField } from '../components/auth/PasswordField';
 import { PrimaryButton } from '../components/auth/PrimaryButton';
 import { TextField } from '../components/auth/TextField';
 import { roles } from '../data/roles';
-import { useAppData } from '../contexts/AppDataContext';
-import { MIN_PASSWORD_LENGTH, validateEmail } from '../utils/validation';
+import { roleFromDb, useAuth } from '../contexts/AuthContext';
+import { validateEmail } from '../utils/validation';
 
 export function Login() {
   const { role: roleId } = useParams();
   const navigate = useNavigate();
   const role = roles.find((r) => r.id === roleId);
-  const { signIn } = useAppData();
+  const { signIn, signOut } = useAuth();
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errors, setErrors] = useState({});
   const [authFailed, setAuthFailed] = useState(false);
+  const [failText, setFailText] = useState('');
   const [loading, setLoading] = useState(false);
 
   if (!role) return <Navigate to="/" replace />;
   const base = `/ingresar/${role.id}`;
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const next = {
       email: validateEmail(email),
@@ -36,17 +37,28 @@ export function Login() {
     if (next.email || next.password) return;
 
     setLoading(true);
-    setTimeout(() => {
+    setAuthFailed(false);
+    const { error, profile } = await signIn(email.trim(), password);
+
+    if (error) {
       setLoading(false);
-      // Simulación: las contraseñas de menos de 8 caracteres se rechazan.
-      if (password.length < MIN_PASSWORD_LENGTH) {
-        setAuthFailed(true);
-        setErrors({ password: 'Verificá que la contraseña esté escrita correctamente.' });
-        return;
-      }
-      signIn({ email: email.trim(), role: role.id });
-      navigate(`${base}/bienvenida`);
-    }, 900);
+      setAuthFailed(true);
+      setFailText(error);
+      setErrors({ password: 'Verificá que la contraseña esté escrita correctamente.' });
+      return;
+    }
+
+    // Si entró por el perfil equivocado (ej. un empleado en "Soy Líder"), se corta la sesión
+    if (profile && roleFromDb(profile.role) !== role.id) {
+      await signOut();
+      setLoading(false);
+      setAuthFailed(true);
+      setFailText(`Esta cuenta no es de ${role.credentialLabel}. Volvé y elegí tu perfil correcto.`);
+      return;
+    }
+
+    setLoading(false);
+    navigate(`${base}/bienvenida`);
   };
 
   return (
@@ -65,10 +77,7 @@ export function Login() {
               <AlertCircleIcon size={16} className="alert__icon" aria-hidden="true" />
               <div>
                 <p className="alert__title">No pudimos iniciar sesión</p>
-                <p className="alert__text">
-                  El correo electrónico o la contraseña no son válidos. Revisalos y
-                  volvé a intentarlo.
-                </p>
+                <p className="alert__text">{failText}</p>
               </div>
             </div>
           }

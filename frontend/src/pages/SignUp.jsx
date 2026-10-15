@@ -8,14 +8,14 @@ import { PasswordField } from '../components/auth/PasswordField';
 import { PrimaryButton } from '../components/auth/PrimaryButton';
 import { TextField } from '../components/auth/TextField';
 import { roles } from '../data/roles';
-import { useAppData } from '../contexts/AppDataContext';
+import { useAuth } from '../contexts/AuthContext';
 import { MIN_PASSWORD_LENGTH, validateEmail } from '../utils/validation';
 
 export function SignUp() {
   const { role: roleId } = useParams();
   const navigate = useNavigate();
   const role = roles.find((r) => r.id === roleId);
-  const { signIn } = useAppData();
+  const { signUp } = useAuth();
 
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -28,7 +28,7 @@ export function SignUp() {
   if (!role) return <Navigate to="/" replace />;
   const base = `/ingresar/${role.id}`;
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     const next = {};
@@ -44,11 +44,24 @@ export function SignUp() {
     setErrors(next);
     if (Object.values(next).some(Boolean)) return;
 
-    setLoading(true);
-    setTimeout(() => {
-      signIn({ name: name.trim(), email: email.trim(), role: role.id });
-      navigate(`${base}/bienvenida`);
-    }, 900);
+        setLoading(true);
+    const { error, needsConfirmation } = await signUp({
+      name: name.trim(),
+      email: email.trim(),
+      password,
+      role: role.id
+    });
+    setLoading(false);
+
+    if (error) {
+      setErrors({ email: error });
+      return;
+    }
+    if (needsConfirmation) {
+      setErrors({ email: 'Revisá tu correo para confirmar la cuenta.' });
+      return;
+    }
+    navigate(`${base}/bienvenida`);
   };
 
   return (
