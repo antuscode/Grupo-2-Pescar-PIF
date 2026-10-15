@@ -1,4 +1,3 @@
-import { newId } from '../../utils/id';
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { CircleCheckIcon, FolderKanbanIcon, PlusIcon, UsersIcon } from 'lucide-react';
@@ -17,17 +16,23 @@ export function Projects() {
 
   const editing = projects.find((p) => p.id === modal) ?? null;
 
-  const handleSave = (data) => {
+    const handleSave = async (data) => {
     if (modal === 'new') {
-      addProject({ id: newId('pj'), ...data });
+      const { error } = await addProject(data);
       setNotice(
+        error ?
+        `No se pudo crear el proyecto: ${error}` :
         data.memberIds.length ?
         `Creaste “${data.name}” con un equipo de ${data.memberIds.length} ${data.memberIds.length === 1 ? 'persona' : 'personas'}.` :
         `Creaste “${data.name}”. Asignale un equipo cuando sumes integrantes.`
       );
     } else {
-      updateProjectTeam(editing.id, data.memberIds);
-      setNotice(`Actualizaste el equipo de “${editing.name}”.`);
+      const { error } = await updateProjectTeam(editing.id, data.memberIds);
+      setNotice(
+        error ?
+        `No se pudo actualizar el equipo: ${error}` :
+        `Actualizaste el equipo de “${editing.name}”.`
+      );
     }
     setModal(null);
   };

@@ -1,26 +1,53 @@
-import { newId } from '../utils/id';
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import { useAppData } from './AppDataContext';
+import { supabase } from '../lib/supabase';
+import { toFrontMember, toFrontProject } from '../lib/adapters';
+import { useAuth } from './AuthContext';
 import { ALERT_LOAD, memberColors, WEEKLY_HOURS } from '../data/team';
 import { loadStatus } from '../utils/tasks';
 
 const TeamContext = createContext(null);
 
-// Guarda los integrantes, los proyectos y las tareas del equipo.
-// Arranca vacío: el líder carga todo a mano.
+const MEMBER_COLUMNS = 'id,name,job_title,email,color,user_id';
+const PROJECT_COLUMNS = 'id,name,description,due_date,project_members(member_id)';
+
+// Traduce el error de la base a un texto entendible
+const dbError = (error) => {
+  console.error(error);
+  if (error.code === '23505') return 'Ya existe uno con ese nombre.';
+  if (error.code === '42501') return 'No tenés permiso para hacer esto.';
+  return error.message;
+};
+
+// Guarda los integrantes y los proyectos del equipo (en Supabase).
+// Las tareas siguen en memoria hasta la Fase C.
 // Vive arriba de todas las pantallas para que los cambios se vean en todas.
 export function TeamProvider({ children }) {
   const [members, setMembers] = useState([]);
   const [projects, setProjects] = useState([]);
-  const { user } = useAppData();
+  const { profile } = useAuth();
+  const teamId = profile?.team_id ?? null;
 
-  // Al cerrar sesión se vacía el equipo, para que la próxima persona no vea datos ajenos
+  // Al cambiar de persona se vacía y se carga su equipo desde la base
   useEffect(() => {
-    if (!user) {
-      setMembers([]);
-      setProjects([]);
-    }
-  }, [user]);
+    setMembers([]);
+    setProjects([]);
+    if (!teamId) return;
+
+    let cancelled = false;
+    (async () => {
+      const [membersRes, projectsRes] = await Promise.all([
+        supabase.from('team_members').select(MEMBER_COLUMNS).eq('team_id', teamId).order('created_at'),
+        supabase.from('projects').select(PROJECT_COLUMNS).eq('team_id', teamId).order('created_at')
+      ]);
+      if (cancelled) return;
+      if (membersRes.error) console.error('Error al cargar integrantes:', membersRes.error);
+      else setMembers(membersRes.data.map(toFrontMember));
+      if (projectsRes.error) console.error('Error al cargar proyectos:', projectsRes.error);
+      else setProjects(projectsRes.data.map(toFrontProject));
+    })();
+
+    return () => { cancelled = true; };
+  }, [profile?.id, teamId]);
 
   // Calcula horas, porcentaje de carga y alerta de cada integrante
   const withLoad = members.map((member) => {
@@ -52,27 +79,36 @@ export function TeamProvider({ children }) {
     percent: totalHours ? Math.round(assignedHours / totalHours * 100) : 0
   };
 
-  // Suma un integrante nuevo al equipo
-  const addMember = ({ name, role, email }) => {
-    const member = {
-      id: newId('m'),
+  // Suma un integrante nuevo al equipo. Devuelve { member } o { error }
+  const addMember = async ({ name, role, email }) => {
+    if (!teamId) return { error: 'Tu cuenta no tiene un equipo asignado.' };
+    const { data, error } = await supabase.
+    from('team_members').
+    insert({
+      team_id: teamId,
       name,
-      role,
-      email,
-      color: memberColors[members.length % memberColors.length],
-      tasks: []
-    };
+      job_title: role,
+      email: email || null,
+      color: memberColors[members.length % memberColors.length]
+    }).
+    select(MEMBER_COLUMNS).
+    single();
+    if (error) return { error: dbError(error) };
+    const member = toFrontMember(data);
     setMembers((prev) => [...prev, member]);
-    return member;
+    return { member };
   };
 
   // Quita a un integrante del equipo y de todos los proyectos
-  const removeMember = (memberId) => {
+  const removeMember = async (memberId) => {
+    const { error } = await supabase.from('team_members').delete().eq('id', memberId);
+    if (error) return { error: dbError(error) };
     setMembers((prev) => prev.filter((m) => m.id !== memberId));
     setProjects((prev) => prev.map((p) => ({ ...p, memberIds: p.memberIds.filter((id) => id !== memberId) })));
+    return {};
   };
 
-  // Mueve una tarea de una persona a otra
+  // Mueve una tarea de una persona a otra (en memoria hasta la Fase C)
   const reassign = (fromId, taskId, toId) => {
     setMembers((prev) => {
       const task = prev.find((m) => m.id === fromId).tasks.find((t) => t.id === taskId);
@@ -84,19 +120,57 @@ export function TeamProvider({ children }) {
     });
   };
 
-  // Agrega una tarea nueva a una persona
+  // Agrega una tarea nueva a una persona (en memoria hasta la Fase C)
   const addTask = (memberId, task) => {
     setMembers((prev) => prev.map((m) => m.id === memberId ? { ...m, tasks: [...m.tasks, task] } : m));
   };
 
-  // Crea un proyecto nuevo con su equipo
-  const addProject = (project) => {
+  // Crea un proyecto nuevo con su equipo. Devuelve {} o { error }
+  const addProject = async ({ name, description, dueDate, memberIds = [] }) => {
+    if (!teamId) return { error: 'Tu cuenta no tiene un equipo asignado.' };
+    const { data, error } = await supabase.
+    from('projects').
+    insert({ team_id: teamId, name, description, due_date: dueDate || null }).
+    select('id,name,description,due_date').
+    single();
+    if (error) return { error: dbError(error) };
+
+    if (memberIds.length) {
+      const { error: linkError } = await supabase.
+      from('project_members').
+      insert(memberIds.map((member_id) => ({ project_id: data.id, member_id })));
+      if (linkError) {
+        // Si falla el equipo, se deshace el proyecto para no dejarlo a medias
+        await supabase.from('projects').delete().eq('id', data.id);
+        return { error: dbError(linkError) };
+      }
+    }
+
+    const project = toFrontProject({
+      ...data,
+      project_members: memberIds.map((member_id) => ({ member_id }))
+    });
     setProjects((prev) => [...prev, project]);
+    return {};
   };
 
-  // Cambia quiénes forman el equipo de un proyecto
-  const updateProjectTeam = (projectId, memberIds) => {
+  // Cambia quiénes forman el equipo de un proyecto. Devuelve {} o { error }
+  const updateProjectTeam = async (projectId, memberIds) => {
+    const { error: deleteError } = await supabase.
+    from('project_members').
+    delete().
+    eq('project_id', projectId);
+    if (deleteError) return { error: dbError(deleteError) };
+
+    if (memberIds.length) {
+      const { error: insertError } = await supabase.
+      from('project_members').
+      insert(memberIds.map((member_id) => ({ project_id: projectId, member_id })));
+      if (insertError) return { error: dbError(insertError) };
+    }
+
     setProjects((prev) => prev.map((p) => p.id === projectId ? { ...p, memberIds } : p));
+    return {};
   };
 
   const value = {

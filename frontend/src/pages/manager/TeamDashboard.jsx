@@ -39,17 +39,16 @@ export function TeamDashboard() {
     setNotice(`Reasignaste “${task.title}” de ${from.name} a ${to.name}.`);
   };
 
-  const handleAddMember = (data) => {
-    addMember(data);
+    const handleAddMember = async (data) => {
+    const { error } = await addMember(data);
     setMemberModal(false);
-    setNotice(`Sumaste a ${data.name} al equipo.`);
+    setNotice(error ? `No se pudo sumar a ${data.name}: ${error}` : `Sumaste a ${data.name} al equipo.`);
   };
 
-  const handleRemove = (member) => {
-    removeMember(member.id);
-    setNotice(`Quitaste a ${member.name} del equipo.`);
+  const handleRemove = async (member) => {
+    const { error } = await removeMember(member.id);
+    setNotice(error ? `No se pudo quitar a ${member.name}: ${error}` : `Quitaste a ${member.name} del equipo.`);
   };
-
   return (
     <>
       <header className="page-head">

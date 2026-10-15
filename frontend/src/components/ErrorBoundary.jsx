@@ -34,7 +34,7 @@ class Boundary extends React.Component {
           <button type="button" className="btn-primary" onClick={() => window.location.reload()}>
             Recargar
           </button>
-          <a href="/" className="btn-secondary">Ir al inicio</a>
+          <a href={import.meta.env.BASE_URL} className="btn-secondary">Ir al inicio</a>
         </div>
       </main>);
 

@@ -48,6 +48,7 @@ export function ProjectModal({ open, project, members, existingNames, onClose, o
       name: name.trim(),
       description: description.trim() || 'Sin descripción.',
       due: due ? format(new Date(`${due}T12:00`), 'dd MMM', { locale: es }) : 'Sin fecha',
+      dueDate: due || null,
       memberIds: team
     });
   };
