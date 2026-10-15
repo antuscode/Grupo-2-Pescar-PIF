@@ -8,12 +8,13 @@ import { PrimaryButton } from '../components/auth/PrimaryButton';
 import { TextField } from '../components/auth/TextField';
 import { roles } from '../data/roles';
 import { validateEmail } from '../utils/validation';
+import { useAuth } from '../contexts/AuthContext';
 
 // status puede ser: 'idle' (formulario), 'loading' (enviando) o 'sent' (enviado)
 export function ForgotPassword() {
   const { role: roleId } = useParams();
   const role = roles.find((r) => r.id === roleId);
-
+  const { resetPassword } = useAuth();
   const [email, setEmail] = useState('');
   const [error, setError] = useState(undefined);
   const [status, setStatus] = useState('idle');
@@ -21,13 +22,20 @@ export function ForgotPassword() {
   if (!role) return <Navigate to="/" replace />;
   const base = `/ingresar/${role.id}`;
 
-  const handleSubmit = (e) => {
+   const handleSubmit = async (e) => {
     e.preventDefault();
     const next = validateEmail(email);
     setError(next);
     if (next) return;
+
     setStatus('loading');
-    setTimeout(() => setStatus('sent'), 900);
+    const { error: sendError } = await resetPassword(email.trim());
+    if (sendError) {
+      setStatus('idle');
+      setError(sendError);
+      return;
+    }
+    setStatus('sent');
   };
 
   return (
