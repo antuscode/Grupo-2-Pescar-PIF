@@ -50,7 +50,7 @@ export function NewTeamTaskModal({ open, members, projects, onClose, onSave }) {
       description: form.description,
       project: form.project,
       hours,
-      dueDate: form.due
+      dueDate: form.due || null
     });
     if (result?.error) {
       setErrors((current) => ({ ...current, save: result.error }));

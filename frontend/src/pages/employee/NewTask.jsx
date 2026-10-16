@@ -1,4 +1,3 @@
-import { newId } from '../../utils/id';
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { CheckIcon, ChevronRightIcon, PlusIcon, XIcon } from 'lucide-react';
@@ -42,7 +41,7 @@ export function NewTask() {
     setChecklist([...checklist, ...missing]);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const next = {};
     if (!title.trim()) next.title = 'Escribí un nombre para la tarea.';
@@ -50,8 +49,7 @@ export function NewTask() {
     setErrors(next);
     if (Object.keys(next).length > 0) return;
 
-    addTask({
-      id: newId('tarea-'),
+    const { error } = await addTask({
       title: title.trim(),
       project,
       priority,
@@ -64,6 +62,10 @@ export function NewTask() {
       subtasks: checklist.map((text, i) => ({ id: `s${i}`, text, done: false })),
       comments: []
     });
+    if (error) {
+      window.alert(error);
+      return;
+    }
     navigate('/app/tareas', { state: { notice: { text: `Creaste "${title.trim()}".` } } });
   };
 
@@ -235,6 +237,7 @@ export function NewTask() {
           </div>
         </div>
 
+        {errors.submit && <p className="field__error" role="alert">{errors.submit}</p>}
         <div className="new-task__footer">
           <Link to="/app/tareas" className="btn btn--ghost">
             Cancelar

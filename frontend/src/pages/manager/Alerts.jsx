@@ -50,8 +50,8 @@ export function Alerts() {
     setNotice(message);
   };
 
-  const handleReassign = (from, task, to) => {
-    reassign(from.id, task.id, to.id);
+  const handleReassign = async (from, task, to) => {
+    await reassign(from.id, task.id, to.id);
     setDetailMemberId(null);
     setNotice(`Reasignaste “${task.title}” a ${to.name}.`);
   };

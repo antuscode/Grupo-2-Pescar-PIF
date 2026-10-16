@@ -4,17 +4,23 @@ import { XIcon } from 'lucide-react';
 
 export function Modal({ open, onClose, labelledBy, wide = false, children }) {
   const dialogRef = useRef(null);
+  const onCloseRef = useRef(onClose);
   const reduceMotion = useReducedMotion();
+
+  // Se guarda siempre la versión más reciente de onClose, sin reiniciar el efecto de abajo
+  useEffect(() => {
+    onCloseRef.current = onClose;
+  });
 
   useEffect(() => {
     if (!open) return;
     const handleKey = (e) => {
-      if (e.key === 'Escape') onClose();
+      if (e.key === 'Escape') onCloseRef.current();
     };
     document.addEventListener('keydown', handleKey);
     dialogRef.current?.focus();
     return () => document.removeEventListener('keydown', handleKey);
-  }, [open, onClose]);
+  }, [open]);
 
   return (
     <AnimatePresence>

@@ -33,10 +33,10 @@ export function TeamDashboard() {
   const selected = members.find((m) => m.id === selectedId) ?? null;
   const visible = members.filter((m) => m.name.toLowerCase().includes(search.toLowerCase()));
 
-  const handleReassign = (from, task, to) => {
-    reassign(from.id, task.id, to.id);
+  const handleReassign = async (from, task, to) => {
+    const { error } = await reassign(from.id, task.id, to.id);
     setSelectedId(null);
-    setNotice(`Reasignaste “${task.title}” de ${from.name} a ${to.name}.`);
+    setNotice(error ? `No se pudo reasignar: ${error}` : `Reasignaste “${task.title}” de ${from.name} a ${to.name}.`);
   };
 
     const handleAddMember = async (data) => {
