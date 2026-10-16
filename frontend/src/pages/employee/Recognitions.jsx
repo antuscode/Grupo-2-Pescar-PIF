@@ -48,9 +48,9 @@ export function Recognitions() {
       setError('Contale qué valorás de su trabajo.');
       return;
     }
-    const result = await addRecognition({ person, category, message: message.trim() });
-    if (result.error) {
-      setError(result.error);
+    const { error } = await addRecognition({ person, category, message: message.trim() });
+    if (error) {
+      setNotice(`No se pudo enviar: ${error}`);
       return;
     }
     setNotice(`Enviaste un reconocimiento a ${person}.`);
