@@ -30,8 +30,9 @@ export function TeamTasks() {
   const columns = project === 'Todos' ? teamProjects : [project];
   const capacityHigh = capacity.percent > SAFE_LOAD;
 
-  const handleSave = (member, task) => {
-    addTask(member.id, task);
+  const handleSave = async (member, task) => {
+    const { error } = await addTask(member.id, task);
+    if (error) return { error };
     setModalOpen(false);
     navigate('/equipo', {
       state: {
@@ -41,6 +42,7 @@ export function TeamTasks() {
         }
       }
     });
+    return {};
   };
 
   return (
