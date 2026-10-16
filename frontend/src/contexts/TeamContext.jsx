@@ -1,13 +1,14 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { supabase } from '../lib/supabase';
-import { toFrontMember, toFrontProject } from '../lib/adapters';
+import { toFrontMember, toFrontProject, toLeaderTask } from '../lib/adapters';
 import { useAuth } from './AuthContext';
 import { ALERT_LOAD, memberColors, WEEKLY_HOURS } from '../data/team';
 import { loadStatus } from '../utils/tasks';
 
 const TeamContext = createContext(null);
 
-const MEMBER_COLUMNS = 'id,name,job_title,email,color,user_id';
+const MEMBER_COLUMNS =
+  'id,name,job_title,email,color,user_id,tasks:tasks!assignee_member_id(id,title,hours,due_at,completed_at,project:projects(id,name))';
 const PROJECT_COLUMNS = 'id,name,description,due_date,project_members(member_id)';
 
 // Traduce el error de la base a un texto entendible
@@ -108,8 +109,10 @@ export function TeamProvider({ children }) {
     return {};
   };
 
-  // Mueve una tarea de una persona a otra (en memoria hasta la Fase C)
-  const reassign = (fromId, taskId, toId) => {
+  // Mueve una tarea de una persona a otra. Devuelve {} o { error }
+  const reassign = async (fromId, taskId, toId) => {
+    const { error } = await supabase.from('tasks').update({ assignee_member_id: toId }).eq('id', taskId);
+    if (error) return { error: dbError(error) };
     setMembers((prev) => {
       const task = prev.find((m) => m.id === fromId).tasks.find((t) => t.id === taskId);
       return prev.map((m) => {
@@ -118,11 +121,30 @@ export function TeamProvider({ children }) {
         return m;
       });
     });
+    return {};
   };
 
-  // Agrega una tarea nueva a una persona (en memoria hasta la Fase C)
-  const addTask = (memberId, task) => {
+  // Agrega una tarea nueva a una persona. Devuelve {} o { error }
+  const addTask = async (memberId, { title, description, project, hours, dueDate }) => {
+    if (!teamId) return { error: 'Tu cuenta no tiene un equipo asignado.' };
+    const projectId = projects.find((p) => p.name === project)?.id ?? null;
+    const { data, error } = await supabase.
+    from('tasks').
+    insert({
+      team_id: teamId,
+      assignee_member_id: memberId,
+      project_id: projectId,
+      title,
+      description: description?.trim() || undefined,
+      hours: Number(hours) || 0,
+      due_at: dueDate ? new Date(`${dueDate}T12:00`).toISOString() : null
+    }).
+    select('id,title,hours,due_at,project:projects(id,name)').
+    single();
+    if (error) return { error: dbError(error) };
+    const task = toLeaderTask(data);
     setMembers((prev) => prev.map((m) => m.id === memberId ? { ...m, tasks: [...m.tasks, task] } : m));
+    return {};
   };
 
   // Crea un proyecto nuevo con su equipo. Devuelve {} o { error }

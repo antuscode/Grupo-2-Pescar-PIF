@@ -1,7 +1,4 @@
-import { newId } from '../../utils/id';
 import React, { useEffect, useState } from 'react';
-import { format } from 'date-fns';
-import { es } from 'date-fns/locale';
 import { Modal } from '../app/Modal';
 import { Avatar } from '../app/Avatar';
 import { Pill } from '../app/Pill';
@@ -38,7 +35,7 @@ export function NewTeamTaskModal({ open, members, projects, onClose, onSave }) {
     onClose();
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const next = {};
     if (!form.title.trim()) next.title = 'Escribí un título.';
@@ -48,13 +45,17 @@ export function NewTeamTaskModal({ open, members, projects, onClose, onSave }) {
     setErrors(next);
     if (Object.keys(next).length > 0) return;
 
-    onSave(selected, {
-      id: newId('t'),
+    const result = await onSave(selected, {
       title: form.title.trim(),
+      description: form.description,
       project: form.project,
       hours,
-      due: form.due ? format(new Date(`${form.due}T12:00`), 'dd MMM', { locale: es }) : 'Sin fecha'
+      dueDate: form.due
     });
+    if (result?.error) {
+      setErrors((current) => ({ ...current, save: result.error }));
+      return;
+    }
     setForm(fresh());
     setErrors({});
   };
@@ -175,6 +176,8 @@ export function NewTeamTaskModal({ open, members, projects, onClose, onSave }) {
           }
           {errors.memberId && <p className="field__error">{errors.memberId}</p>}
         </fieldset>
+
+        {errors.save && <p className="field__error" role="alert">{errors.save}</p>}
 
         {selected && hours > 0 &&
         <div className="projected" role="status">
