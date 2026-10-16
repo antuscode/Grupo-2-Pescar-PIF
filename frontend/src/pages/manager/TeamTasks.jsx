@@ -32,17 +32,19 @@ export function TeamTasks() {
 
   const handleSave = async (member, task) => {
     const { error } = await addTask(member.id, task);
-    if (error) return { error };
     setModalOpen(false);
+    if (error) {
+      window.alert(`No se pudo asignar la tarea: ${error}`);
+      return;
+    }
     navigate('/equipo', {
       state: {
         toast: {
           title: `¡Tarea asignada con éxito a ${member.name}!`,
-          text: 'Se envió una notificación al colaborador y se actualizó su indicador de carga.'
+          text: 'Se actualizó su indicador de carga.'
         }
       }
     });
-    return {};
   };
 
   return (
