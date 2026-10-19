@@ -35,8 +35,7 @@ export function PaymentModal({ open, mode, plan, members, defaultName = '', defa
   const [touched, setTouched] = useState({});
   const [loading, setLoading] = useState(false);
 
-  const total = plan ? plan.pricePerPerson * members : 0;
-  const money = `$${total.toFixed(2)}`;
+const total = plan ? (plan.flatPrice ?? plan.pricePerPerson * members) : 0;  const money = `$${total.toFixed(2)}`;
   const errorOf = (field) => rules[field](form[field]);
   const showError = (field) => touched[field] && errorOf(field);
 
@@ -135,8 +134,7 @@ export function PaymentModal({ open, mode, plan, members, defaultName = '', defa
               <div className="summary">
                 <p className="summary__title">Resumen</p>
                 <p className="summary__row">
-                  Plan {plan.name} <strong>${plan.pricePerPerson} / persona / mes</strong>
-                </p>
+Plan {plan.name} <strong>${plan.flatPrice} / mes</strong>                 </p>
                 <p className="summary__row">
                   Integrantes <strong>{members}</strong>
                 </p>
