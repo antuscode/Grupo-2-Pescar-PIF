@@ -78,11 +78,11 @@ export function Billing() {
           return (
             <section key={plan.id} className={isCurrent ? 'plan plan--current' : 'plan'} aria-label={`Plan ${plan.name}`}>
               <h2 className="plan__name">{plan.name}</h2>
-              <p className="plan__price">
-                {plan.price}
-                {plan.unit && <span className="plan__unit">{plan.unit}</span>}
-              </p>
-              <p className="plan__detail">{plan.detail}</p>
+            <ul className="plan__features">
+              {plan.features.map((f) => (
+                <li key={f}>{f}</li>
+              ))}
+            </ul>
               {isCurrent ?
               <button type="button" className="btn btn--accent btn--block" disabled aria-disabled="true" style={{ opacity: 1 }}>
                   Plan actual
