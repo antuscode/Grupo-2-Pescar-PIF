@@ -72,30 +72,54 @@ export function AppDataProvider({ children }) {
 
   const signOut = () => authSignOut();
 
-  // Crea una tarea propia. Devuelve {} o { error }
+  // Crea una tarea para vos o para alguien de tu equipo. Devuelve {} o { error }
   const addTask = async (task) => {
     if (!myMemberId) {
       return { error: 'No encontramos tu perfil de equipo. Pedile a tu líder que te cargue con tu correo.' };
     }
+
+    // Responsable: si elegiste a otra persona, se busca por nombre dentro de tu equipo
+    let assigneeId = myMemberId;
+    if (task.assignee && task.assignee !== user.shortName) {
+      const { data: other } = await supabase
+        .from('team_members')
+        .select('id')
+        .eq('team_id', profile.team_id)
+        .eq('name', task.assignee)
+        .maybeSingle();
+      if (!other) return { error: `No encontramos a ${task.assignee} en tu equipo.` };
+      assigneeId = other.id;
+    }
+
     let projectId = null;
     if (task.project && task.project !== 'General') {
       const { data } = await supabase.from('projects').select('id').eq('name', task.project).maybeSingle();
       projectId = data?.id ?? null;
     }
-    const { data, error } = await supabase
-      .from('tasks')
-      .insert({
-        team_id: profile.team_id,
-        assignee_member_id: myMemberId,
-        project_id: projectId,
-        title: task.title,
-        description: task.description,
-        priority: task.priority,
-        hours: task.hours || 0,
-        due_at: task.dueAt
-      })
-      .select(TASK_COLUMNS)
-      .single();
+
+    const row = {
+      team_id: profile.team_id,
+      assignee_member_id: assigneeId,
+      project_id: projectId,
+      title: task.title,
+      description: task.description,
+      priority: task.priority,
+      hours: task.hours || 0,
+      due_at: task.dueAt
+    };
+
+    // Tarea para otra persona: no se puede leer de vuelta (solo ves las tuyas),
+    // así que se guarda sin pedir el resultado y no aparece en tu lista
+    if (assigneeId !== myMemberId) {
+      const { error } = await supabase.from('tasks').insert(row);
+      if (error) {
+        console.error(error);
+        return { error: error.message };
+      }
+      return {};
+    }
+
+    const { data, error } = await supabase.from('tasks').insert(row).select(TASK_COLUMNS).single();
     if (error) {
       console.error(error);
       return { error: error.message };
